@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Midjourney キャラクターサムネイル・プロンプトジェネレーター</title>
+  <!-- Data URI による埋め込みファビコン -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='bgGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='28' fill='url(%23bgGrad)'/%3E%3Cpath d='M30 25h40a10 10 0 0 1 10 10v30a10 10 0 0 1-10 10H30a10 10 0 0 1-10-10V35a10 10 0 0 1 10-10zm0 6a4 4 0 0 0-4 4v30a4 4 0 0 0 4 4h40a4 4 0 0 0 4-4V35a4 4 0 0 0-4-4H30zm22 13a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm-16 23 11.2-13.44a2 2 0 0 1 3.01-.06L57 60l5.12-5.7a2 2 0 0 1 2.95-.03L74 63H36z' fill='%23ffffff'/%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +33,6 @@
 </head>
 <body class="h-full flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
 
-  <!-- Header -->
   <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-3 sm:px-6 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -97,7 +98,6 @@
         </div>
       </section>
 
-      <!-- 基本設定フォーム -->
       <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
         
         <!-- 画像URL -->
@@ -156,7 +156,6 @@
 
       </section>
 
-      <!-- 詳細カスタマイズ -->
       <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
         <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
           <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,7 +202,6 @@
 
     </div>
 
-    <!-- Right Column: Generated Prompt & Preview -->
     <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-20 h-fit">
 
       <!-- プロンプト出力カード -->
@@ -292,7 +290,7 @@
       { id: 'coffee', label: '☕ コーヒーを飲む', text: 'holding a hot coffee cup with both hands' }
     ];
 
-    // データ定義：背景バリエーション
+    // データ定義：背景バリエーション（「海辺のカフェ」を含む）
     const backgrounds = [
       { id: 'messy_desk', label: '📑 散らかったデスク', text: 'messy desk with stacks of paper, chaotic office background' },
       { id: 'dark_room', label: '🌙 夜の暗い部屋', text: 'dark room illuminated only by glowing laptop screen light' },
@@ -310,7 +308,6 @@
     let selectedPose = poses[0].id;
     let selectedBg = backgrounds[3].id;
 
-    // 初期表示ダイナミック描画
     window.addEventListener('DOMContentLoaded', () => {
       renderRadioButtons('expressionContainer', expressions, 'expr', (id) => { selectedExpr = id; updatePrompt(); });
       renderRadioButtons('poseContainer', poses, 'pose', (id) => { selectedPose = id; updatePrompt(); });
@@ -357,7 +354,6 @@
       });
     }
 
-    // プロンプト組み立て関数
     function updatePrompt() {
       const url = document.getElementById('imageUrl').value.trim();
       const ar = document.getElementById('aspectRatio').value;
@@ -405,7 +401,6 @@
       else cwText.textContent = '0 (顔固定・服自由)';
     }
 
-    // ワンタッププリセット適用
     function applyPreset(type) {
       if (type === 'trouble') {
         selectRadio('expressionContainer', 'troubled', (id) => selectedExpr = id);
@@ -438,7 +433,6 @@
       });
     }
 
-    // クリップボードへのコピー (安全なフォールバック付き)
     function copyToClipboard() {
       const textarea = document.getElementById('outputPrompt');
       textarea.select();
