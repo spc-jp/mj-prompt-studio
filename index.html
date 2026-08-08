@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Midjourney キャラクターサムネイル・プロンプトジェネレーター</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    }
+    /* カスタムスクロールバー */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 py-3 sm:px-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+            MJ Character Prompt Studio
+          </h1>
+          <p class="text-xs text-slate-400">note・SNS特化型 サムネイルプロンプト生成ツール</p>
+        </div>
+      </div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+        --cref 対応
+      </span>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- Left Column: Settings Form -->
+    <div class="lg:col-span-7 space-y-6">
+
+      <!-- クイックワンタッププリセット -->
+      <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            文脈クイックプリセット（ワンタップ設定）
+          </h2>
+          <span class="text-xs text-slate-400">目的から一発入力</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <button type="button" onclick="applyPreset('trouble')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-rose-950/40 border border-slate-700/80 hover:border-rose-500/50 text-left transition text-xs">
+            <div class="text-base mb-1">😫 悩み・課題</div>
+            <div class="font-medium text-slate-300 group-hover:text-rose-300">ビフォー（困り顔）</div>
+            <div class="text-[10px] text-slate-500">散らかったデスク・暗い部屋</div>
+          </button>
+          
+          <button type="button" onclick="applyPreset('solution')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-emerald-950/40 border border-slate-700/80 hover:border-emerald-500/50 text-left transition text-xs">
+            <div class="text-base mb-1">💡 解決・ひらめき</div>
+            <div class="font-medium text-slate-300 group-hover:text-emerald-300">アフター（笑顔）</div>
+            <div class="text-[10px] text-slate-500">明るいカフェ・日差し</div>
+          </button>
+
+          <button type="button" onclick="applyPreset('guide')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-sky-950/40 border border-slate-700/80 hover:border-sky-500/50 text-left transition text-xs">
+            <div class="text-base mb-1">📣 ノウハウ・案内</div>
+            <div class="font-medium text-slate-300 group-hover:text-sky-300">解説・ポインティング</div>
+            <div class="text-[10px] text-slate-500">モダンオフィス・PC操作</div>
+          </button>
+
+          <button type="button" onclick="applyPreset('text_material')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-purple-950/40 border border-slate-700/80 hover:border-purple-500/50 text-left transition text-xs">
+            <div class="text-base mb-1">🎨 文字入れ素材</div>
+            <div class="font-medium text-slate-300 group-hover:text-purple-300">余白重視・切り抜き</div>
+            <div class="text-[10px] text-slate-500">完全な白背景・単色</div>
+          </button>
+        </div>
+      </section>
+
+      <!-- 基本設定フォーム -->
+      <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+        
+        <!-- 画像URL -->
+        <div>
+          <label for="imageUrl" class="block text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
+            <span>キャラ画像URL（Midjourneyの参照画像）<span class="text-rose-400">*</span></span>
+            <span class="text-[11px] text-slate-400">`--cref` に適用されます</span>
+          </label>
+          <input type="url" id="imageUrl" placeholder="https://s.mj.run/xxxxxxxx" 
+            class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+            oninput="updatePrompt()">
+        </div>
+
+        <!-- サイズ & CW固定度 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- アスペクト比 -->
+          <div>
+            <label for="aspectRatio" class="block text-xs font-medium text-slate-300 mb-1.5">
+              アスペクト比 (`--ar`)
+            </label>
+            <select id="aspectRatio" onchange="updatePrompt()" 
+              class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition">
+              <option value="1.91:1" selected>1.91:1 (noteサムネ / OGP推奨)</option>
+              <option value="16:9">16:9 (YouTubeサムネ / プレゼン)</option>
+              <option value="1:1">1:1 (SNSアイコン / note本文挿絵)</option>
+              <option value="9:16">9:16 (スマホ壁紙 / リール・TikTok)</option>
+              <option value="4:3">4:3 (ブログ・WEB記事)</option>
+            </select>
+          </div>
+
+          <!-- 服装固定度 (--cw) -->
+          <div>
+            <label for="characterWeight" class="block text-xs font-medium text-slate-300 mb-1.5 flex justify-between">
+              <span>キャラクター保持度 (`--cw`)</span>
+              <span id="cwValText" class="text-indigo-400 font-mono text-[11px]">100 (全身・服固定)</span>
+            </label>
+            <select id="characterWeight" onchange="updatePrompt()" 
+              class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition">
+              <option value="100" selected>100 (顔・髪型・服・全身を固定)</option>
+              <option value="50">50 (顔と髪型メイン固定・ポーズ柔軟)</option>
+              <option value="0">0 (顔だけ固定・服やポーズ自由変更)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- スタイル参照 ID (--sref) (任意) -->
+        <div>
+          <label for="srefCode" class="block text-xs font-medium text-slate-300 mb-1.5 flex justify-between">
+            <span>画風スタイルコード (`--sref`) <span class="text-slate-500 font-normal">(任意)</span></span>
+            <span class="text-[11px] text-slate-400">例: 3127221801</span>
+          </label>
+          <input type="text" id="srefCode" placeholder="数字またはURLを入力（空欄可）" 
+            class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+            oninput="updatePrompt()">
+        </div>
+
+      </section>
+
+      <!-- 詳細カスタマイズ -->
+      <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+        <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+          <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+          シーン・表現の微調整
+        </h3>
+
+        <!-- 表情 -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-2">① 表情 (Expression)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="expressionContainer">
+            <!-- JSで動的生成 -->
+          </div>
+        </div>
+
+        <!-- ポーズ・手振り -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-2">② ポーズ・動作 (Pose & Action)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="poseContainer">
+            <!-- JSで動的生成 -->
+          </div>
+        </div>
+
+        <!-- 背景バリエーション -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-2">③ 背景シーン (Background & Environment)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="bgContainer">
+            <!-- JSで動的生成 -->
+          </div>
+        </div>
+
+        <!-- 追加フリーテキスト -->
+        <div>
+          <label for="customPrompt" class="block text-xs font-medium text-slate-300 mb-1.5">
+            ④ 追加のこだわりプロンプト <span class="text-slate-500 font-normal">(任意)</span>
+          </label>
+          <input type="text" id="customPrompt" placeholder="例: wearing a yellow hoodie, holding a coffee cup" 
+            class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+            oninput="updatePrompt()">
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- Right Column: Generated Prompt & Preview -->
+    <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-20 h-fit">
+
+      <!-- プロンプト出力カード -->
+      <section class="bg-gradient-to-b from-slate-800 to-slate-900 border border-indigo-500/30 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold text-indigo-400 tracking-wider uppercase flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Generated Prompt
+          </span>
+          <span id="charCount" class="text-[11px] text-slate-500 font-mono">0 chars</span>
+        </div>
+
+        <!-- プロンプト表示エリア -->
+        <div class="relative group">
+          <textarea id="outputPrompt" readonly rows="7" 
+            class="w-full p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-emerald-300 focus:outline-none resize-none leading-relaxed select-all">
+          </textarea>
+        </div>
+
+        <!-- アクションボタン -->
+        <div class="mt-4 flex gap-2">
+          <button type="button" onclick="copyToClipboard()" 
+            class="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-xl shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition duration-150">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+            </svg>
+            プロンプトをコピー
+          </button>
+
+          <button type="button" onclick="resetForm()" title="リセット"
+            class="p-3 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 rounded-xl border border-slate-700 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- トースト通知 -->
+        <div id="toast" class="hidden my-3 p-2.5 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-center text-xs text-emerald-300 font-medium">
+          ✓ クリップボードにコピーしました！Midjourneyに貼り付けて生成してください。
+        </div>
+
+      </section>
+
+      <!-- 使い方ガイド -->
+      <section class="bg-slate-800/40 border border-slate-800 rounded-2xl p-4 text-xs text-slate-400 space-y-2">
+        <h4 class="font-semibold text-slate-300 flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Midjourneyでの使い方
+        </h4>
+        <ol class="list-decimal list-inside space-y-1.5 pl-1 leading-relaxed text-slate-400">
+          <li>生成したプロンプトを上記のボタンでコピーします。</li>
+          <li>MidjourneyのDiscordまたはWeb UIで <code class="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded">/imagine</code> に貼り付けます。</li>
+          <li>画像が生成されたら、noteやCanva等で文字入れを行って完成です！</li>
+        </ol>
+      </section>
+
+    </div>
+
+  </main>
+
+  <script>
+    // データ定義：表情
+    const expressions = [
+      { id: 'smile', label: '😊 笑顔・明るい', text: 'big happy smile, cheerful face' },
+      { id: 'troubled', label: '😫 悩む・頭抱える', text: 'troubled confused expression, worried, stressed' },
+      { id: 'eureka', label: '💡 ひらめき・閃き', text: 'excited eureka moment expression, mouth open in surprise and delight' },
+      { id: 'focused', label: '💻 真剣・集中', text: 'focused serious expression, concentrating hard' },
+      { id: 'surprised', label: '😲 驚き・ショック', text: 'surprised shocked expression, wide eyes' },
+      { id: 'gentle', label: '😌 優しい微笑み', text: 'gentle soft smile, calm expression' }
+    ];
+
+    // データ定義：ポーズ・動作
+    const poses = [
+      { id: 'waving', label: '👋 手を振る', text: 'waving hand at camera' },
+      { id: 'pointing', label: '👉 指差し・案内', text: 'pointing index finger up, gesturing' },
+      { id: 'typing', label: '⌨️ PCを操作する', text: 'typing on a laptop keyboard' },
+      { id: 'holding_head', label: '🤦‍♂️ 頭を抱える', text: 'holding head with hands in distress' },
+      { id: 'crossed_arms', label: '💪 腕組みする', text: 'arms crossed confidently' },
+      { id: 'coffee', label: '☕ コーヒーを飲む', text: 'holding a hot coffee cup with both hands' }
+    ];
+
+    // データ定義：背景バリエーション
+    const backgrounds = [
+      { id: 'messy_desk', label: '📑 散らかったデスク', text: 'messy desk with stacks of paper, chaotic office background' },
+      { id: 'dark_room', label: '🌙 夜の暗い部屋', text: 'dark room illuminated only by glowing laptop screen light' },
+      { id: 'rainy_window', label: '🌧️ 雨の日の窓辺', text: 'rainy window in a dim indoor setting, melancholy mood' },
+      { id: 'bright_cafe', label: '☕ 明るいおしゃれカフェ', text: 'cozy sunlit modern cafe background, soft bokeh' },
+      { id: 'modern_office', label: '🏢 クリーンなオフィス', text: 'minimalist modern office background, clean and professional' },
+      { id: 'pure_white', label: '⬜ 完全な白背景', text: 'pure white solid color studio background, minimal, isolated' },
+      { id: 'pastel_gradient', label: '🎨 パステルグラデーション', text: 'soft pastel abstract gradient background, gentle colors' },
+      { id: 'home_desk', label: '🏠 自宅の作業机', text: 'cozy home desk setup with plants and warm light' }
+    ];
+
+    // 状態管理
+    let selectedExpr = expressions[0].id;
+    let selectedPose = poses[0].id;
+    let selectedBg = backgrounds[3].id;
+
+    // 初期表示ダイナミック描画
+    window.addEventListener('DOMContentLoaded', () => {
+      renderRadioButtons('expressionContainer', expressions, 'expr', (id) => { selectedExpr = id; updatePrompt(); });
+      renderRadioButtons('poseContainer', poses, 'pose', (id) => { selectedPose = id; updatePrompt(); });
+      renderRadioButtons('bgContainer', backgrounds, 'bg', (id) => { selectedBg = id; updatePrompt(); });
+      
+      // 初期プロンプト生成
+      updatePrompt();
+    });
+
+    // ラジオボタン描画関数
+    function renderRadioButtons(containerId, items, groupName, onChangeCallback) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      items.forEach((item, index) => {
+        const isChecked = index === 0;
+        const btn = document.createElement('label');
+        btn.className = `cursor-pointer text-xs p-2.5 rounded-xl border transition flex items-center gap-1.5 select-none ${
+          isChecked 
+            ? 'bg-indigo-600/20 border-indigo-500 text-indigo-200' 
+            : 'bg-slate-900 border-slate-700/80 text-slate-400 hover:bg-slate-800'
+        }`;
+        
+        btn.innerHTML = `
+          <input type="radio" name="${groupName}" value="${item.id}" ${isChecked ? 'checked' : ''} class="hidden">
+          <span class="truncate">${item.label}</span>
+        `;
+
+        btn.addEventListener('click', () => {
+          document.querySelectorAll(`input[name="${groupName}"]`).forEach(input => {
+            const parent = input.parentElement;
+            parent.classList.remove('bg-indigo-600/20', 'border-indigo-500', 'text-indigo-200');
+            parent.classList.add('bg-slate-900', 'border-slate-700/80', 'text-slate-400');
+          });
+          
+          btn.classList.remove('bg-slate-900', 'border-slate-700/80', 'text-slate-400');
+          btn.classList.add('bg-indigo-600/20', 'border-indigo-500', 'text-indigo-200');
+          btn.querySelector('input').checked = true;
+
+          onChangeCallback(item.id);
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    // プロンプト組み立て関数
+    function updatePrompt() {
+      const url = document.getElementById('imageUrl').value.trim();
+      const ar = document.getElementById('aspectRatio').value;
+      const cw = document.getElementById('characterWeight').value;
+      const sref = document.getElementById('srefCode').value.trim();
+      const custom = document.getElementById('customPrompt').value.trim();
+
+      // テキスト部分取得
+      const exprObj = expressions.find(e => e.id === selectedExpr);
+      const poseObj = poses.find(p => p.id === selectedPose);
+      const bgObj = backgrounds.find(b => b.id === selectedBg);
+
+      let promptParts = ['a cute character'];
+
+      if (exprObj) promptParts.push(exprObj.text);
+      if (poseObj) promptParts.push(poseObj.text);
+      if (bgObj) promptParts.push(bgObj.text);
+      if (custom) promptParts.push(custom);
+
+      let fullPrompt = `/imagine prompt: ${promptParts.join(', ')}`;
+
+      // パラメータ追加
+      if (url) {
+        fullPrompt += ` --cref ${url}`;
+        fullPrompt += ` --cw ${cw}`;
+      } else {
+        fullPrompt += ` --cref [YOUR_IMAGE_URL] --cw ${cw}`;
+      }
+
+      if (sref) {
+        fullPrompt += ` --sref ${sref}`;
+      }
+
+      fullPrompt += ` --ar ${ar}`;
+
+      // UI出力更新
+      const textarea = document.getElementById('outputPrompt');
+      textarea.value = fullPrompt;
+      document.getElementById('charCount').textContent = `${fullPrompt.length} chars`;
+
+      // CWラベル更新
+      const cwText = document.getElementById('cwValText');
+      if (cw === '100') cwText.textContent = '100 (全身・服固定)';
+      else if (cw === '50') cwText.textContent = '50 (顔・髪型メイン)';
+      else cwText.textContent = '0 (顔固定・服自由)';
+    }
+
+    // ワンタッププリセット適用
+    function applyPreset(type) {
+      if (type === 'trouble') {
+        selectRadio('expressionContainer', 'troubled', (id) => selectedExpr = id);
+        selectRadio('poseContainer', 'holding_head', (id) => selectedPose = id);
+        selectRadio('bgContainer', 'messy_desk', (id) => selectedBg = id);
+      } else if (type === 'solution') {
+        selectRadio('expressionContainer', 'smile', (id) => selectedExpr = id);
+        selectRadio('poseContainer', 'waving', (id) => selectedPose = id);
+        selectRadio('bgContainer', 'bright_cafe', (id) => selectedBg = id);
+      } else if (type === 'guide') {
+        selectRadio('expressionContainer', 'eureka', (id) => selectedExpr = id);
+        selectRadio('poseContainer', 'pointing', (id) => selectedPose = id);
+        selectRadio('bgContainer', 'modern_office', (id) => selectedBg = id);
+      } else if (type === 'text_material') {
+        selectRadio('expressionContainer', 'gentle', (id) => selectedExpr = id);
+        selectRadio('poseContainer', 'pointing', (id) => selectedPose = id);
+        selectRadio('bgContainer', 'pure_white', (id) => selectedBg = id);
+      }
+      updatePrompt();
+    }
+
+    // ラジオ選択ヘルパー
+    function selectRadio(containerId, value, setVar) {
+      const inputs = document.querySelectorAll(`#${containerId} input[type="radio"]`);
+      inputs.forEach(input => {
+        if (input.value === value) {
+          input.click();
+          setVar(value);
+        }
+      });
+    }
+
+    // クリップボードへのコピー (安全なフォールバック付き)
+    function copyToClipboard() {
+      const textarea = document.getElementById('outputPrompt');
+      textarea.select();
+      
+      let successful = false;
+      try {
+        successful = document.execCommand('copy');
+      } catch (err) {
+        successful = false;
+      }
+
+      if (!successful && navigator.clipboard) {
+        navigator.clipboard.writeText(textarea.value).then(() => {
+          showToast();
+        });
+      } else if (successful) {
+        showToast();
+      }
+    }
+
+    // トースト通知を表示
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // フォームリセット
+    function resetForm() {
+      document.getElementById('imageUrl').value = '';
+      document.getElementById('srefCode').value = '';
+      document.getElementById('customPrompt').value = '';
+      document.getElementById('aspectRatio').value = '1.91:1';
+      document.getElementById('characterWeight').value = '100';
+      
+      applyPreset('solution');
+    }
+  </script>
+</body>
+</html>
