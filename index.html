@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" class="h-full bg-slate-900 text-slate-100">
+<html lang="ja" class="h-full bg-slate-50 text-slate-800">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,36 +20,36 @@
       height: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: #0f172a;
+      background: #f1f5f9;
     }
     ::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: #cbd5e1;
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
+      background: #94a3b8;
     }
   </style>
 </head>
-<body class="h-full flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+<body class="h-full flex flex-col antialiased bg-gradient-to-br from-slate-50 via-indigo-50/30 to-slate-100 selection:bg-indigo-500 selection:text-white">
 
-  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-30">
+  <header class="border-b border-slate-200/80 bg-white/80 backdrop-blur sticky top-0 z-30 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3 sm:px-6 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center shadow-md shadow-indigo-500/20">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+          <h1 class="text-base sm:text-lg font-bold text-slate-900">
             MJ Character Prompt Studio
           </h1>
-          <p class="text-xs text-slate-400">note・SNS特化型 サムネイルプロンプト生成ツール</p>
+          <p class="text-xs text-slate-500">note・SNS特化型 サムネイルプロンプト生成ツール</p>
         </div>
       </div>
-      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600 border border-indigo-200/60 shadow-sm">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
         --cref 対応
       </span>
     </div>
@@ -61,10 +61,10 @@
     <div class="lg:col-span-7 space-y-6">
 
       <!-- クイックワンタッププリセット -->
-      <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl">
+      <section class="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-sm">
         <div class="flex items-center justify-between mb-3">
-          <h2 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <h2 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             文脈クイックプリセット（ワンタップ設定）
@@ -72,42 +72,42 @@
           <span class="text-xs text-slate-400">目的から一発入力</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          <button type="button" onclick="applyPreset('trouble')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-rose-950/40 border border-slate-700/80 hover:border-rose-500/50 text-left transition text-xs">
+          <button type="button" onclick="applyPreset('trouble')" class="preset-btn group p-2.5 rounded-xl bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-300 text-left transition text-xs">
             <div class="text-base mb-1">😫 悩み・課題</div>
-            <div class="font-medium text-slate-300 group-hover:text-rose-300">ビフォー（困り顔）</div>
-            <div class="text-[10px] text-slate-500">散らかったデスク・暗い部屋</div>
+            <div class="font-medium text-slate-700 group-hover:text-rose-700">ビフォー（困り顔）</div>
+            <div class="text-[10px] text-slate-400">散らかったデスク・暗い部屋</div>
           </button>
           
-          <button type="button" onclick="applyPreset('solution')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-emerald-950/40 border border-slate-700/80 hover:border-emerald-500/50 text-left transition text-xs">
+          <button type="button" onclick="applyPreset('solution')" class="preset-btn group p-2.5 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-left transition text-xs">
             <div class="text-base mb-1">💡 解決・ひらめき</div>
-            <div class="font-medium text-slate-300 group-hover:text-emerald-300">アフター（笑顔）</div>
-            <div class="text-[10px] text-slate-500">明るいカフェ・日差し</div>
+            <div class="font-medium text-slate-700 group-hover:text-emerald-700">アフター（笑顔）</div>
+            <div class="text-[10px] text-slate-400">明るいカフェ・日差し</div>
           </button>
 
-          <button type="button" onclick="applyPreset('guide')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-sky-950/40 border border-slate-700/80 hover:border-sky-500/50 text-left transition text-xs">
+          <button type="button" onclick="applyPreset('guide')" class="preset-btn group p-2.5 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 text-left transition text-xs">
             <div class="text-base mb-1">📣 ノウハウ・案内</div>
-            <div class="font-medium text-slate-300 group-hover:text-sky-300">解説・ポインティング</div>
-            <div class="text-[10px] text-slate-500">モダンオフィス・PC操作</div>
+            <div class="font-medium text-slate-700 group-hover:text-sky-700">解説・ポインティング</div>
+            <div class="text-[10px] text-slate-400">モダンオフィス・PC操作</div>
           </button>
 
-          <button type="button" onclick="applyPreset('text_material')" class="preset-btn group p-2.5 rounded-xl bg-slate-900/80 hover:bg-purple-950/40 border border-slate-700/80 hover:border-purple-500/50 text-left transition text-xs">
+          <button type="button" onclick="applyPreset('text_material')" class="preset-btn group p-2.5 rounded-xl bg-slate-50 hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-left transition text-xs">
             <div class="text-base mb-1">🎨 文字入れ素材</div>
-            <div class="font-medium text-slate-300 group-hover:text-purple-300">余白重視・切り抜き</div>
-            <div class="text-[10px] text-slate-500">完全な白背景・単色</div>
+            <div class="font-medium text-slate-700 group-hover:text-purple-700">余白重視・切り抜き</div>
+            <div class="text-[10px] text-slate-400">完全な白背景・単色</div>
           </button>
         </div>
       </section>
 
-      <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+      <section class="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
         
         <!-- 画像URL -->
         <div>
-          <label for="imageUrl" class="block text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
-            <span>キャラ画像URL（Midjourneyの参照画像）<span class="text-rose-400">*</span></span>
+          <label for="imageUrl" class="block text-xs font-medium text-slate-700 mb-1.5 flex items-center justify-between">
+            <span>キャラ画像URL（Midjourneyの参照画像）<span class="text-rose-500">*</span></span>
             <span class="text-[11px] text-slate-400">`--cref` に適用されます</span>
           </label>
           <input type="url" id="imageUrl" placeholder="https://s.mj.run/xxxxxxxx" 
-            class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
             oninput="updatePrompt()">
         </div>
 
@@ -115,11 +115,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <!-- アスペクト比 -->
           <div>
-            <label for="aspectRatio" class="block text-xs font-medium text-slate-300 mb-1.5">
+            <label for="aspectRatio" class="block text-xs font-medium text-slate-700 mb-1.5">
               アスペクト比 (`--ar`)
             </label>
             <select id="aspectRatio" onchange="updatePrompt()" 
-              class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition">
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition">
               <option value="1.91:1" selected>1.91:1 (noteサムネ / OGP推奨)</option>
               <option value="16:9">16:9 (YouTubeサムネ / プレゼン)</option>
               <option value="1:1">1:1 (SNSアイコン / note本文挿絵)</option>
@@ -130,12 +130,12 @@
 
           <!-- 服装固定度 (--cw) -->
           <div>
-            <label for="characterWeight" class="block text-xs font-medium text-slate-300 mb-1.5 flex justify-between">
+            <label for="characterWeight" class="block text-xs font-medium text-slate-700 mb-1.5 flex justify-between">
               <span>キャラクター保持度 (`--cw`)</span>
-              <span id="cwValText" class="text-indigo-400 font-mono text-[11px]">100 (全身・服固定)</span>
+              <span id="cwValText" class="text-indigo-600 font-mono text-[11px] font-semibold">100 (全身・服固定)</span>
             </label>
             <select id="characterWeight" onchange="updatePrompt()" 
-              class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition">
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition">
               <option value="100" selected>100 (顔・髪型・服・全身を固定)</option>
               <option value="50">50 (顔と髪型メイン固定・ポーズ柔軟)</option>
               <option value="0">0 (顔だけ固定・服やポーズ自由変更)</option>
@@ -145,20 +145,20 @@
 
         <!-- スタイル参照 ID (--sref) (任意) -->
         <div>
-          <label for="srefCode" class="block text-xs font-medium text-slate-300 mb-1.5 flex justify-between">
-            <span>画風スタイルコード (`--sref`) <span class="text-slate-500 font-normal">(任意)</span></span>
+          <label for="srefCode" class="block text-xs font-medium text-slate-700 mb-1.5 flex justify-between">
+            <span>画風スタイルコード (`--sref`) <span class="text-slate-400 font-normal">(任意)</span></span>
             <span class="text-[11px] text-slate-400">例: 3127221801</span>
           </label>
           <input type="text" id="srefCode" placeholder="数字またはURLを入力（空欄可）" 
-            class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
             oninput="updatePrompt()">
         </div>
 
       </section>
 
-      <section class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
-        <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-          <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <section class="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+        <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
+          <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
           </svg>
           シーン・表現の微調整
@@ -166,7 +166,7 @@
 
         <!-- 表情 -->
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-2">① 表情 (Expression)</label>
+          <label class="block text-xs font-medium text-slate-700 mb-2">① 表情 (Expression)</label>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="expressionContainer">
             <!-- JSで動的生成 -->
           </div>
@@ -174,7 +174,7 @@
 
         <!-- ポーズ・手振り -->
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-2">② ポーズ・動作 (Pose & Action)</label>
+          <label class="block text-xs font-medium text-slate-700 mb-2">② ポーズ・動作 (Pose & Action)</label>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="poseContainer">
             <!-- JSで動的生成 -->
           </div>
@@ -182,7 +182,7 @@
 
         <!-- 背景バリエーション -->
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-2">③ 背景シーン (Background & Environment)</label>
+          <label class="block text-xs font-medium text-slate-700 mb-2">③ 背景シーン (Background & Environment)</label>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="bgContainer">
             <!-- JSで動的生成 -->
           </div>
@@ -190,11 +190,11 @@
 
         <!-- 追加フリーテキスト -->
         <div>
-          <label for="customPrompt" class="block text-xs font-medium text-slate-300 mb-1.5">
-            ④ 追加のこだわりプロンプト <span class="text-slate-500 font-normal">(任意)</span>
+          <label for="customPrompt" class="block text-xs font-medium text-slate-700 mb-1.5">
+            ④ 追加のこだわりプロンプト <span class="text-slate-400 font-normal">(任意)</span>
           </label>
           <input type="text" id="customPrompt" placeholder="例: wearing a yellow hoodie, holding a coffee cup" 
-            class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
             oninput="updatePrompt()">
         </div>
 
@@ -205,30 +205,30 @@
     <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-20 h-fit">
 
       <!-- プロンプト出力カード -->
-      <section class="bg-gradient-to-b from-slate-800 to-slate-900 border border-indigo-500/30 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
+      <section class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-xl shadow-indigo-100/50 relative overflow-hidden">
         <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-semibold text-indigo-400 tracking-wider uppercase flex items-center gap-1.5">
+          <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             Generated Prompt
           </span>
-          <span id="charCount" class="text-[11px] text-slate-500 font-mono">0 chars</span>
+          <span id="charCount" class="text-[11px] text-slate-400 font-mono">0 chars</span>
         </div>
 
-        <!-- プロンプト表示エリア -->
+        <!-- プロンプト表示エリア（見やすさのために視認性の高いダークコードボックスを採用） -->
         <div class="relative group">
           <textarea id="outputPrompt" readonly rows="7" 
-            class="w-full p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-sm font-mono text-emerald-300 focus:outline-none resize-none leading-relaxed select-all">
+            class="w-full p-3.5 bg-slate-900 border border-slate-800 rounded-xl text-sm font-mono text-emerald-400 focus:outline-none resize-none leading-relaxed select-all shadow-inner">
           </textarea>
         </div>
 
         <!-- アクションボタン -->
         <div class="mt-4 flex gap-2">
           <button type="button" onclick="copyToClipboard()" 
-            class="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-xl shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition duration-150">
+            class="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold rounded-xl shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2 transition duration-150">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
             </svg>
@@ -236,7 +236,7 @@
           </button>
 
           <button type="button" onclick="resetForm()" title="リセット"
-            class="p-3 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 rounded-xl border border-slate-700 transition">
+            class="p-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl border border-slate-200 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
@@ -244,23 +244,23 @@
         </div>
 
         <!-- トースト通知 -->
-        <div id="toast" class="hidden my-3 p-2.5 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-center text-xs text-emerald-300 font-medium">
+        <div id="toast" class="hidden my-3 p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-center text-xs text-emerald-700 font-medium shadow-sm">
           ✓ クリップボードにコピーしました！Midjourneyに貼り付けて生成してください。
         </div>
 
       </section>
 
       <!-- 使い方ガイド -->
-      <section class="bg-slate-800/40 border border-slate-800 rounded-2xl p-4 text-xs text-slate-400 space-y-2">
-        <h4 class="font-semibold text-slate-300 flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <section class="bg-amber-50/60 border border-amber-200/60 rounded-2xl p-4 text-xs text-slate-600 space-y-2">
+        <h4 class="font-semibold text-slate-800 flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Midjourneyでの使い方
         </h4>
-        <ol class="list-decimal list-inside space-y-1.5 pl-1 leading-relaxed text-slate-400">
+        <ol class="list-decimal list-inside space-y-1.5 pl-1 leading-relaxed text-slate-600">
           <li>生成したプロンプトを上記のボタンでコピーします。</li>
-          <li>MidjourneyのDiscordまたはWeb UIで <code class="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded">/imagine</code> に貼り付けます。</li>
+          <li>MidjourneyのDiscordまたはWeb UIで <code class="text-indigo-700 bg-white border border-indigo-100 px-1.5 py-0.5 rounded font-mono">/imagine</code> に貼り付けます。</li>
           <li>画像が生成されたら、noteやCanva等で文字入れを行って完成です！</li>
         </ol>
       </section>
@@ -290,7 +290,7 @@
       { id: 'coffee', label: '☕ コーヒーを飲む', text: 'holding a hot coffee cup with both hands' }
     ];
 
-    // データ定義：背景バリエーション（「海辺のカフェ」を含む）
+    // データ定義：背景バリエーション
     const backgrounds = [
       { id: 'messy_desk', label: '📑 散らかったデスク', text: 'messy desk with stacks of paper, chaotic office background' },
       { id: 'dark_room', label: '🌙 夜の暗い部屋', text: 'dark room illuminated only by glowing laptop screen light' },
@@ -317,7 +317,7 @@
       updatePrompt();
     });
 
-    // ラジオボタン描画関数
+    // ラジオボタン描画関数（ライトテーマ用スタイル）
     function renderRadioButtons(containerId, items, groupName, onChangeCallback) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
@@ -327,8 +327,8 @@
         const btn = document.createElement('label');
         btn.className = `cursor-pointer text-xs p-2.5 rounded-xl border transition flex items-center gap-1.5 select-none ${
           isChecked 
-            ? 'bg-indigo-600/20 border-indigo-500 text-indigo-200' 
-            : 'bg-slate-900 border-slate-700/80 text-slate-400 hover:bg-slate-800'
+            ? 'bg-indigo-50 border-indigo-500 text-indigo-700 font-medium shadow-sm' 
+            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
         }`;
         
         btn.innerHTML = `
@@ -339,12 +339,12 @@
         btn.addEventListener('click', () => {
           document.querySelectorAll(`input[name="${groupName}"]`).forEach(input => {
             const parent = input.parentElement;
-            parent.classList.remove('bg-indigo-600/20', 'border-indigo-500', 'text-indigo-200');
-            parent.classList.add('bg-slate-900', 'border-slate-700/80', 'text-slate-400');
+            parent.classList.remove('bg-indigo-50', 'border-indigo-500', 'text-indigo-700', 'font-medium', 'shadow-sm');
+            parent.classList.add('bg-white', 'border-slate-200', 'text-slate-600');
           });
           
-          btn.classList.remove('bg-slate-900', 'border-slate-700/80', 'text-slate-400');
-          btn.classList.add('bg-indigo-600/20', 'border-indigo-500', 'text-indigo-200');
+          btn.classList.remove('bg-white', 'border-slate-200', 'text-slate-600');
+          btn.classList.add('bg-indigo-50', 'border-indigo-500', 'text-indigo-700', 'font-medium', 'shadow-sm');
           btn.querySelector('input').checked = true;
 
           onChangeCallback(item.id);
